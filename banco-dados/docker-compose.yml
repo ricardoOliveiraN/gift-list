@@ -1,0 +1,22 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: gift-list-mysql-dev
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: gift_list
+      MYSQL_USER: gift_user
+      MYSQL_PASSWORD: gift_password
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_dev_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-proot_password"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mysql_dev_data:
